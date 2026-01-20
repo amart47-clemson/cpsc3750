@@ -48,13 +48,13 @@ function generateSampleData() {
         const date = new Date(today);
         date.setDate(date.getDate() - i);
         const type = types[Math.floor(Math.random() * types.length)];
-        const duration = Math.floor(Math.random() * 60) + 20; // 20-80 minutes
+        const duration = Math.floor(Math.random() * 60) + 20; 
         const intensity = intensities[Math.floor(Math.random() * intensities.length)];
-        const calories = Math.floor(duration * (Math.random() * 5 + 5)); // 5-10 cal/min
+        const calories = Math.floor(duration * (Math.random() * 5 + 5)); 
         const note = notes[Math.floor(Math.random() * notes.length)];
 
         sampleWorkouts.push({
-            id: Date.now() + i,
+            id: baseId + (i * 1000),
             date: date.toISOString().split('T')[0],
             exerciseType: type,
             duration: duration,
