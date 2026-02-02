@@ -1,0 +1,7 @@
+# Python
+api/venv/
+api/__pycache__/
+*.pyc
+
+# Server-side data (optional: remove if you want to commit seed JSON)
+api/data/workouts.json
