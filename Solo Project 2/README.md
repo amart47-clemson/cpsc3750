@@ -8,8 +8,8 @@ Cloud-hosted Workout Log Manager with a backend API and JSON file persistence. A
 
 ## Live deployment
 
-- **Netlify (frontend):** [Add your Netlify URL here after deployment]
-- **Backend:** Python (Flask), deployed separately (e.g. [Render](https://render.com)) so the frontend can call the API.
+- **Netlify (frontend):** https://coruscating-gaufre-0e180e.netlify.app
+- **Backend:** Python (Flask), deployed separately so the frontend can call the API (see Local setup / Deployment).
 
 The application is fully usable at the Netlify URL in a normal or incognito/private browser window once the backend URL is set (see below).
 
