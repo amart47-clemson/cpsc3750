@@ -2,9 +2,8 @@
 # Deploy the frontend (static site) from the public folder.
 
 [build]
+  base = "Solo Project 2"
   publish = "public"
-  # If your Netlify site is built from repo root, set base = "Solo Project 2" in the Netlify UI
-  # and keep publish = "public"
 
 # Optional: redirect SPA fallback (not required for this single-page app)
 # [[redirects]]

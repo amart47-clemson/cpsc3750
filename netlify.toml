@@ -1,0 +1,4 @@
+# Netlify config for Solo Project 2 (repo root — Netlify reads this)
+[build]
+  base = "Solo Project 2"
+  publish = "public"
