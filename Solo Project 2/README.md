@@ -51,7 +51,7 @@ The application is fully usable at the Netlify URL in a normal or incognito/priv
 ```bash
 cd "Solo Project 2/api"
 python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
+source venv/bin/activate   
 pip install -r requirements.txt
 python app.py
 ```
@@ -92,7 +92,7 @@ The backend keeps using `api/data/workouts.json` for persistence on the server (
 
 ## Repository
 
-- **GitHub:** [Add your repository link here]
+- **GitHub:** https://github.com/amart47-clemson/cpsc3750
 
 ---
 
@@ -100,7 +100,7 @@ The backend keeps using `api/data/workouts.json` for persistence on the server (
 
 | Item              | Detail                                      |
 |-------------------|---------------------------------------------|
-| Netlify URL       | [Your Netlify URL]                          |
+| Netlify URL       | https://coruscating-gaufre-0e180e.netlify.app/
 | Backend language  | Python (Flask)                              |
 | Data persistence  | Server-side JSON file (`api/data/workouts.json`) |
 | Minimum records   | 30+ (seeded on first run if needed)         |
