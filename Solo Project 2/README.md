@@ -8,7 +8,7 @@ CPSC 3750 · Web Application Development
 
 **Netlify URL:** https://coruscating-gaufre-0e180e.netlify.app
 
-Open the link above in any browser (including incognito/private) to use the app. No setup required.
+Open the link above in any browser to use the app. No setup required.
 
 ---
 

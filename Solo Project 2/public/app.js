@@ -1,5 +1,5 @@
 /* Workout Log Manager — Cloud (Solo Project 2)
-   All CRUD via backend API; paging 10 per page; client + server validation. */
+All CRUD via backend API, paging 10 per page, client and server validation. */
 
 const API_BASE = (typeof window !== 'undefined' && window.API_BASE_URL) ? window.API_BASE_URL.replace(/\/$/, '') : '';
 const PAGE_SIZE = 10;
