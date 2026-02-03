@@ -10,6 +10,8 @@ CPSC 3750 · Web Application Development
 
 Open the link above in any browser to use the app. No setup required.
 
+**If the page loads but shows no workouts or stats:** The backend may be waking up after a period of no traffic. Wait a few seconds and refresh the page once; the data should appear.
+
 ---
 
 ## Backend language
