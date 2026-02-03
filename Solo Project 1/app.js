@@ -28,6 +28,7 @@ function saveData() {
 
 // The Sample Data Generation
 function generateSampleData() {
+    const baseId = 10000;
     const types = ['Cardio', 'Strength Training', 'Yoga', 'HIIT', 'Sports', 'Flexibility'];
     const intensities = ['Low', 'Medium', 'High'];
     const notes = [
