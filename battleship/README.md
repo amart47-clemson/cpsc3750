@@ -9,6 +9,7 @@ cd battleship
 npm install
 npm start
 ```
+Then open **http://localhost:3000** in your browser.
 
 ## Architecture Snapshot
 
@@ -58,6 +59,34 @@ npm start
 | GET /api/game          | any             | No transition; returns current state |
 
 All transitions are enforced on the server; invalid requests return 400 and do not change state.
+
+---
+
+## Major iterations added
+
+Two major iterations were added beyond the baseline (client-only game). Each changes behavior, rules, or architecture.
+
+### Iteration 1 — Server-controlled state; New Game vs Restart
+
+- **What was added:** A Node.js + Express server that holds the only copy of game state. The client no longer owns state; it sends actions (place, fire, new game, restart) and re-renders from the server’s response.
+- **Examples:**  
+  - **New Game:** `POST /api/game/new` — server generates new enemy ships, clears your ships and all shots, sets state to SETUP so you place again.  
+  - **Restart Battle:** `POST /api/game/restart` — server keeps the same your ships and enemy ships, clears all shots, sets state to PLAYER_TURN so you go first again.  
+- **Why it counts:** Ownership of state moves from client to server; behavior (two distinct actions: new vs restart) and architecture (client/server split) change.
+
+### Iteration 2 — Explicit game state machine
+
+- **What was added:** A formal state machine on the server with four states: `SETUP`, `PLAYER_TURN`, `COMPUTER_TURN`, `GAME_OVER`. Every API request checks the current state; only valid transitions are allowed.
+- **Examples:**  
+  - **Placement:** `POST /api/game/place` is only accepted when state is `SETUP`; after success, state becomes `PLAYER_TURN`.  
+  - **Fire:** `POST /api/game/fire` is only accepted when state is `PLAYER_TURN`; on miss, state becomes `COMPUTER_TURN` and the server runs the AI until a miss or game over.  
+  - Invalid requests (e.g. fire during SETUP) return 400 and do not change state.  
+- **Why it counts:** All transitions are explicit and enforced in one place on the server; game state handling is clear and predictable.
+
+### Optional / advanced (also implemented)
+
+- **Persistent storage:** Game state is written to `game-state.json` after every change and loaded on server startup so the game survives a restart.  
+- **Advanced AI:** Hunt/target with memory — after a hit, the computer queues adjacent cells and prefers shooting from that queue until a miss or ship is sunk.
 
 ---
 
