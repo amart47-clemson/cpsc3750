@@ -1,10 +1,8 @@
-# Battleship — Radar Command (CPSC 3750 V2+)
-
-Radar-themed Battleship: place your ships, then play against an AI. Green = hit, red = miss. State and turns are controlled by the server; game persists across server restarts.
+# Battleship V2+ 
 
 ---
 
-## Run (Node server required)
+## How to run
 
 ```bash
 cd battleship
@@ -12,75 +10,101 @@ npm install
 npm start
 ```
 
-Then open **http://localhost:3000**
+## Architecture Snapshot
 
-The server serves the game and the API. Do not use a static-only server (e.g. `python3 -m http.server`) for the full V2+ experience; state lives on the Node server.
+### Diagram
 
----
+```
+  [Browser Client]                         [Node.js Server]
+  - UI, placement UI, buttons              - Game state (single game)
+  - Fetches state; sends place/fire/new/restart
+         │                                          │
+         └────────── GET/POST /api/game ────────────┘
+                              │
+                    Persisted to game-state.json
+```
 
-## How to play
+### Client responsibilities
 
-- **Placement:** Place 1×4, 1×3, 1×2 (H/V), then **Start Battle**. **Rearrange** clears placement and lets you place again (same game).
-- **New Game:** New enemy layout and new placement from scratch.
-- **Restart Battle:** Same your ships and same enemy layout; all shots cleared, you go first.
-- **Your Fleet / Enemy Waters:** Same as before; opponent ships are hidden. Hit = green, miss = red; hit gives another shot.
+- **UI:** Render both grids (your fleet, enemy waters), placement controls (H/V, place ship, Start Battle, Rearrange), status bar, ship counts, New Game and Restart Battle.
+- **Placement (SETUP):** Collect three ship placements locally; on “Start Battle” send `POST /api/game/place` with `{ ships }`. “Rearrange” clears local placement only (no server call).
+- **Display state:** After every API response, re-render from server state. Client does not hold authoritative game state; it only displays the latest response.
+- **Actions:** New Game → `POST /api/game/new`. Restart Battle → `POST /api/game/restart`. Fire → `POST /api/game/fire` with `{ row, col }`.
+- **Audio:** Hit sound (Web Audio API) when a fire response indicates a new hit.
 
----
+### Server responsibilities
 
-## What counts as a major iteration (V2+)
+- **Game state:** Single in-memory game object (`state`, `winner`, `yourShips`, `enemyShips`, `yourHits`, `yourMisses`, `enemyHits`, `enemyMisses`, `aiTargetQueue`). Client never receives `enemyShips`.
+- **State machine:** Four states — `SETUP`, `PLAYER_TURN`, `COMPUTER_TURN`, `GAME_OVER`. Every endpoint checks current state and rejects invalid transitions (e.g. fire only in `PLAYER_TURN`).
+- **Validation:** Placement (3 ships, lengths 4/3/2, no overlap, in bounds). Fire (in bounds, not already fired). Restart only when ships already placed.
+- **AI:** Hunt/target with memory; runs computer shot(s) when state is `COMPUTER_TURN` until a miss or game over.
+- **Persistence:** After every state change, write game to `game-state.json`; load on startup so the game survives server restart.
+- **Static files:** Serves the app from the same origin so the client can call `/api`.
 
-A **major iteration** must change **game behavior, rules, or architecture**. Cosmetic-only changes do not count.
+### Where game state lives
 
-**Acceptable (examples):** New Game vs Restart with server-controlled state; computer fires back; player ship placement with server validation; smarter AI; explicit game state machine; persistent storage (JSON or SQLite).
+- **Authoritative:** On the server, in memory and in `game-state.json`. One game per server process.
+- **Client:** Only the latest snapshot from the last API response, used for rendering. No browser refresh is used to fix state.
 
-**Already in baseline (do not count as an iteration):** Computer fires back (turn-based logic).
+### How state transitions occur
 
-**Not acceptable:** Only changing colors or layout; renaming variables; adding alerts or console output.
+| Trigger                | Allowed state(s) | New state / effect |
+|------------------------|-----------------|--------------------|
+| POST /api/game/new     | any             | SETUP; new enemy ships; ships and shots cleared |
+| POST /api/game/place   | SETUP           | PLAYER_TURN (ships saved, validated) |
+| POST /api/game/fire    | PLAYER_TURN     | Hit → stay PLAYER_TURN; Miss → COMPUTER_TURN (server runs AI until miss or GAME_OVER) |
+| Server (AI)            | COMPUTER_TURN   | Hit → stay COMPUTER_TURN; Miss → PLAYER_TURN; all ships sunk → GAME_OVER |
+| POST /api/game/restart | (ships placed)  | PLAYER_TURN; same boards; shots cleared |
+| GET /api/game          | any             | No transition; returns current state |
 
----
-
-## Two iterations + Advanced (optional)
-
-### Iteration 1 — Server-controlled state; New Game vs Restart
-
-- Game state lives on the server (Node.js + Express). Client uses `GET /api/game` and `POST /api/game/new`, `POST /api/game/restart`, `POST /api/game/place`, `POST /api/game/fire`.
-- **New Game:** New enemy ships and clear player ships; back to placement (SETUP).
-- **Restart Battle:** Same your ships and same enemy ships; clear all shots; back to your turn. No browser refresh; state comes from the server.
-
-### Iteration 2 — Explicit game state machine
-
-- Four formal states: **SETUP**, **PLAYER_TURN**, **COMPUTER_TURN**, **GAME_OVER**.
-- All transitions enforced on the server: place only in SETUP; fire only in PLAYER_TURN; computer moves only in COMPUTER_TURN. Invalid requests return 400 and do not change state.
-
-### Iteration 3 (Advanced) — Persistent storage
-
-- Game state is written to **game-state.json** after every change.
-- On server startup, state is loaded from that file if it exists. The game survives server restart (same boards and shots).
-
-### Advanced AI — Hunt/target + memory
-
-- **Hunt mode:** When the computer has no “target” cells queued, it picks a random unfired cell.
-- **Target mode:** When the computer gets a hit, it adds the four adjacent cells (up, down, left, right) to a **target queue** and remembers them. On subsequent turns it shoots from this queue (cells next to known hits) until it misses or sinks the ship.
-- **Memory:** The target queue is part of game state and is persisted; after a ship is sunk, the queue is cleared so the AI goes back to hunt mode for the next ship.
+All transitions are enforced on the server; invalid requests return 400 and do not change state.
 
 ---
 
-## Known limitations
+## AI Prompt Log (6 prompts)
 
-- **Single game per server:** Only one game in memory (and in the JSON file). No multi-session or game IDs.
-- **AI:** Uses hunt/target with memory (target queue); single game per server, no multi-session.
-- **Single player only:** No multiplayer.
-- **Audio:** Hit sound may be blocked until the user has interacted with the page (browser policy).
+**1. Initial game request**
+
+- **Prompt:** Create a Battleship game with radar-themed UI, an opponent, show hits and misses, show ships being hit, green = hit / red = miss, run on localhost.
+- **Why:** To get a working baseline game with a clear theme and core rules in one shot.
+- **Accepted:** Full implementation (HTML, CSS, JS), radar theme, two grids, AI opponent, hit/miss styling, local server instructions. **Rejected:** Nothing.
 
 ---
 
-## Submission checklist (V2+)
+**2. Rule and ship set changes**
 
-- [x] Two meaningful iterations completed (server state + state machine)
-- [x] Clear client vs server separation
-- [x] Explicit game state handling (state machine on server)
-- [x] Architecture snapshot included → [ARCHITECTURE.md](ARCHITECTURE.md)
-- [x] AI prompt log included → [AI_PROMPT_LOG.md](AI_PROMPT_LOG.md)
-- [ ] GitHub link to FINAL version
-- [ ] 1–2 minute Loom demo video
-- [x] No browser refresh hacks for state
+- **Prompt:** Use only 1×2, 1×3, 1×4 ships; let me move/place my ships wherever I want before the round; and when someone hits a correct spot they go again until they miss.
+- **Why:** Match desired rules and add a placement phase.
+- **Accepted:** New ship set (three ships only), placement phase with H/V and grid clicks, Start Battle and Rearrange, hit = extra turn for both player and AI. **Rejected:** Nothing.
+
+---
+
+**3. Hide opponent’s ships**
+
+- **Prompt:** Don’t let me see my opponent’s ships or where they are placed; fix that.
+- **Why:** Classic Battleship: enemy positions should be hidden until hit.
+- **Accepted:** Enemy grid no longer shows ship positions; only hits (green) and misses (red) after firing. **Rejected:** The previous “show enemy ships” behavior.
+
+---
+
+**4. Hit sound effect**
+
+- **Prompt:** Add a sound effect when a ship is hit.
+- **Why:** Wanted clearer feedback on hits.
+- **Accepted:** Web Audio API hit sound on any ship hit, with context resume on Start Battle so it works after user interaction. **Rejected:** Nothing.
+
+---
+
+**5. Two iterations + advanced (server, state machine, persistence)**
+
+- **Prompt:** Implement whatever is needed for the two required major iterations and the optional advanced iteration: server-controlled state with New Game vs Restart, explicit game state machine (SETUP, PLAYER_TURN, COMPUTER_TURN, GAME_OVER) enforced on the server, and persistent storage (JSON) so the game survives server restart.
+- **Why:** To satisfy the V2+ assignment (two iterations) and the advanced option (persistence).
+- **Accepted:** Node.js + Express server with GET/POST /api/game, new, restart, place, fire; four-state machine with validation; save/load to game-state.json; client refactored to use API only, with New Game and Restart Battle buttons. **Rejected:** Nothing.
+
+---
+
+**6. Advanced AI (hunt/target + memory)**
+
+- **Prompt:** Add the Advanced AI with hunt/target behavior and memory of hits.
+- **Why:** To implement the optional advanced iteration for a stronger opponent.
+- **Accepted:** Server maintains `aiTargetQueue` of cells adjacent to hits; on hit, adds four neighbors (in bounds, not yet fired) to the queue and prefers shooting from the queue; when a ship is sunk the queue is cleared; queue persisted and reset on new game/restart. **Rejected:** Nothing.
