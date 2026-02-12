@@ -85,7 +85,16 @@ def with_connection(fn: Callable[[PGConnection], Any]) -> Any:
 
     conn = get_connection()
     try:
-        return fn(conn)
+        result = fn(conn)
+        # Explicitly commit any changes made inside fn.
+        # This ensures INSERT/UPDATE/DELETE statements are persisted,
+        # including initial seeding.
+        try:
+            conn.commit()
+        except Exception:
+            # In case of read-only operations, commit is a no-op.
+            pass
+        return result
     finally:
         conn.close()
 
