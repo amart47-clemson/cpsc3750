@@ -1,4 +1,5 @@
-# Netlify config for Solo Project 2 (repo root — Netlify reads this)
+# Netlify config for Solo Project 3 (repo root — Netlify reads this)
 [build]
-  base = "Solo Project 2"
-  publish = "public"
+  # Serve the Solo Project 3 static frontend from its public folder
+  base = "Solo Project 3/public"
+  publish = "."
