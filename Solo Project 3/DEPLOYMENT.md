@@ -7,7 +7,7 @@ CPSC 3750 · Web Application Development
 
 ## Live Application
 
-**Custom domain (HTTPS):** https://wokroutmanager.live
+**Custom domain (HTTPS):** https://workoutmanager.live
 
 Open the link above in any browser to use the app. No login required.
 
@@ -15,7 +15,7 @@ Open the link above in any browser to use the app. No login required.
 
 ## Domain & Registrar
 
-- **Domain name:** wokroutmanager.live  
+- **Domain name:** workoutmanager.live  
 - **Registrar:** Purchased and managed through **Netlify**.  
 - **DNS:** Netlify automatically configures DNS for the domain when it is added to the site.  
 - **HTTPS:** Netlify provisions a TLS certificate for the custom domain; the site is served over HTTPS.
@@ -26,7 +26,7 @@ Open the link above in any browser to use the app. No login required.
 
 - **Frontend:** **Netlify**  
   - The files in `Solo Project 3/public` are deployed to Netlify.  
-  - The site is available at the custom domain **wokroutmanager.live** and at the Netlify subdomain **workout-log-solo3.netlify.app**.
+  - The site is available at the custom domain **workoutmanager.live** and at the Netlify subdomain **workout-log-solo3.netlify.app**.
 
 - **Backend (API):** **Render**  
   - The Flask application in `Solo Project 3/api` is deployed as a **Web Service** on Render.  
@@ -63,7 +63,7 @@ Open the link above in any browser to use the app. No login required.
 ## How to Deploy and Update the App
 
 1. **Code lives in GitHub:**  
-   Repository: **amart47-clemson/cpsc3750** (or your current repo URL).  
+   Repository: **amart47-clemson/cpsc3750**  
    Solo Project 3 code is under the `Solo Project 3/` directory (`api/` and `public/`).
 
 2. **Deploy / update frontend (Netlify):**  
@@ -106,7 +106,7 @@ Open the link above in any browser to use the app. No login required.
 
 | Item              | Detail |
 |-------------------|--------|
-| Live URL          | https://wokroutmanager.live |
+| Live URL          | https://workoutmanager.live |
 | Domain registrar  | Netlify |
 | Frontend hosting  | Netlify |
 | Backend hosting   | Render (Web Service) |
