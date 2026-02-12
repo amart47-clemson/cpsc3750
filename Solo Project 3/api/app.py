@@ -503,6 +503,19 @@ def stats():
     return jsonify(data)
 
 
+@app.route("/api/seed", methods=["POST"])
+def seed_endpoint():
+    """
+    One-time helper endpoint to ensure the database has
+    at least 30 sample workouts.
+
+    Safe to call multiple times; it only inserts when the
+    table has fewer than 30 rows.
+    """
+    seed_db_if_needed()
+    return jsonify({"seeded": True}), 200
+
+
 # Serve frontend from / when running as single app (e.g. Render)
 @app.route("/")
 def index():
