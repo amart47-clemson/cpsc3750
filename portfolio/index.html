@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anthony Martino — Full‑Stack Web Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <div class="hero-bg"></div>
+
+    <header class="site-header">
+      <div class="logo-mark">AM</div>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+      </nav>
+    </header>
+
+    <main id="home" class="hero">
+      <section class="hero-left">
+        <p class="eyebrow">Portfolio · 2025</p>
+        <h1 class="hero-title">
+          <span class="hero-name">Anthony Martino</span>
+          <span class="hero-role">Full‑Stack Web Developer</span>
+        </h1>
+        <p class="hero-tagline">
+          I build production‑ready web apps that actually ship —
+          from clean UIs to deployed APIs and databases.
+        </p>
+
+        <section class="featured-card" aria-labelledby="featured-heading">
+          <div class="featured-label-row">
+            <span class="pill pill-featured">Featured Project</span>
+            <span class="pill pill-status">Live · Solo Project 3</span>
+          </div>
+
+          <h2 id="featured-heading" class="featured-title">Workout Log Manager</h2>
+          <p class="featured-text">
+            A cloud‑based workout tracker with stats, search, and a PostgreSQL backend
+            deployed on Render and Netlify.
+          </p>
+
+          <div class="featured-actions">
+            <a class="btn btn-primary" href="https://workoutmanager.live" target="_blank" rel="noopener noreferrer">
+              View Live App
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/amart47-clemson/cpsc3750/tree/main/Solo%20Project%203" target="_blank" rel="noopener noreferrer">
+              See the Code
+            </a>
+          </div>
+
+          <ul class="featured-meta">
+            <li><strong>Stack</strong> Python · Flask · PostgreSQL · HTML/CSS/JS</li>
+            <li><strong>Highlights</strong> CRUD API, filtering &amp; search, stats dashboard, production hosting</li>
+          </ul>
+        </section>
+      </section>
+
+      <aside class="hero-right" aria-hidden="true">
+        <div class="stat-card">
+          <p class="stat-label">Production apps</p>
+          <p class="stat-value">2</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Deployed stacks</p>
+          <p class="stat-value">Flask · Postgres · Netlify</p>
+        </div>
+        <div class="stat-mini-grid">
+          <div class="mini-pill">REST APIs</div>
+          <div class="mini-pill">Auth‑ready</div>
+          <div class="mini-pill">Cloud Deployed</div>
+          <div class="mini-pill">User‑First UX</div>
+        </div>
+      </aside>
+    </main>
+
+    <section id="projects" class="section">
+      <div class="section-header">
+        <h2>Projects</h2>
+        <p>Selected work I can walk through in an interview.</p>
+      </div>
+
+      <div class="projects-grid">
+        <article class="project-card">
+          <h3>Workout Log Manager</h3>
+          <p class="project-tagline">
+            Solo Project 3 · Track workouts with live stats, search, and filters.
+          </p>
+          <ul class="project-details">
+            <li>Flask API with PostgreSQL on Render</li>
+            <li>Responsive dashboard UI deployed on Netlify</li>
+            <li>Supports paging, sorting, and search across 30+ seed workouts</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://workoutmanager.live" target="_blank" rel="noopener noreferrer">Live app</a>
+            <span>·</span>
+            <a href="https://github.com/amart47-clemson/cpsc3750/tree/main/Solo%20Project%203" target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card project-card--placeholder">
+          <h3>Team Project — Coming Soon</h3>
+          <p class="project-tagline">
+            Multi‑phase team app with static, database, and real‑time features.
+          </p>
+          <p class="placeholder-note">
+            This section will link to Phases 1–3 once all live deployments are ready.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="section section-about">
+      <div class="section-header">
+        <h2>About</h2>
+        <p>How I work and what I like building.</p>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>
+            I’m a web developer focused on shipping real, working products —
+            not just class assignments. I like projects where I own the full
+            stack: designing the API, wiring up the database, and polishing the UI
+            so it feels fast and obvious to use.
+          </p>
+          <p>
+            Recent work includes Workout Log Manager, a production‑deployed
+            fitness tracker with a Flask API, PostgreSQL on Render, and a Netlify‑hosted
+            frontend at <strong>workoutmanager.live</strong>.
+          </p>
+        </div>
+        <div>
+          <h3 class="subheading">What I’m comfortable with</h3>
+          <ul class="skills-list">
+            <li>Python · Flask · REST APIs</li>
+            <li>PostgreSQL · SQL schema design</li>
+            <li>HTML · CSS · modern JavaScript</li>
+            <li>Netlify &amp; Render deployments</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>© 2025 Anthony Martino</span>
+      <span>·</span>
+      <a href="https://github.com/amart47-clemson" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <span>·</span>
+      <a href="mailto:your.email@domain.com">Email</a>
+    </footer>
+  </div>
+</body>
+</html>
+
