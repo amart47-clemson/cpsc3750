@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
 </head>
 <body>
   <div class="page-shell">
@@ -30,8 +31,8 @@
           <span class="hero-role">Full‑Stack Web Developer</span>
         </h1>
         <p class="hero-tagline">
-          I build production‑ready web apps that actually ship —
-          from clean UIs to deployed APIs and databases.
+          I design and ship full‑stack web apps that feel fast, clear, and real —
+          from polished interfaces to production APIs and databases.
         </p>
 
         <section class="featured-card" aria-labelledby="featured-heading">
@@ -42,15 +43,15 @@
 
           <h2 id="featured-heading" class="featured-title">Workout Log Manager</h2>
           <p class="featured-text">
-            A cloud‑based workout tracker with stats, search, and a PostgreSQL backend
-            deployed on Render and Netlify.
+            A cloud‑based workout tracker with personal stats, powerful filters, and a PostgreSQL
+            backend deployed on Render and Netlify.
           </p>
 
           <div class="featured-actions">
             <a class="btn btn-primary" href="https://workoutmanager.live" target="_blank" rel="noopener noreferrer">
               View Live App
             </a>
-            <a class="btn btn-ghost" href="https://github.com/amart47-clemson/cpsc3750/tree/main/Solo%20Project%203" target="_blank" rel="noopener noreferrer">
+            <a class="btn btn-ghost" href="https://github.com/amart47-clemson/personal-portfolio/tree/main/portfolio-site" target="_blank" rel="noopener noreferrer">
               See the Code
             </a>
           </div>
@@ -83,37 +84,61 @@
     <section id="projects" class="section">
       <div class="section-header">
         <h2>Projects</h2>
-        <p>Selected work I can walk through in an interview.</p>
+        <p>Work I can demo end‑to‑end — live app, architecture, and code.</p>
       </div>
 
       <div class="projects-grid">
-        <article class="project-card">
-          <h3>Workout Log Manager</h3>
-          <p class="project-tagline">
-            Solo Project 3 · Track workouts with live stats, search, and filters.
-          </p>
-          <ul class="project-details">
-            <li>Flask API with PostgreSQL on Render</li>
-            <li>Responsive dashboard UI deployed on Netlify</li>
-            <li>Supports paging, sorting, and search across 30+ seed workouts</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://workoutmanager.live" target="_blank" rel="noopener noreferrer">Live app</a>
-            <span>·</span>
-            <a href="https://github.com/amart47-clemson/cpsc3750/tree/main/Solo%20Project%203" target="_blank" rel="noopener noreferrer">
-              GitHub
-            </a>
+        <article class="project-card is-open">
+          <button class="project-toggle" type="button" data-accordion-toggle>
+            <div class="project-toggle-text">
+              <h3>Workout Log Manager</h3>
+              <p class="project-tagline">
+                Solo Project 3 · A focused dashboard for tracking workouts over time.
+              </p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-panel" data-accordion-panel>
+            <ul class="project-details">
+              <li>Flask API with PostgreSQL on Render (seeded with 30+ workouts).</li>
+              <li>Responsive dashboard UI on Netlify with stats, filters, and search.</li>
+              <li>Supports paging, sorting, and flexible queries for past sessions.</li>
+            </ul>
+            <div class="project-links">
+              <a href="https://workoutmanager.live" target="_blank" rel="noopener noreferrer">Live app</a>
+              <span>·</span>
+              <a href="https://github.com/amart47-clemson/cpsc3750/tree/main/Solo%20Project%203" target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+            </div>
           </div>
         </article>
 
         <article class="project-card project-card--placeholder">
-          <h3>Team Project — Coming Soon</h3>
-          <p class="project-tagline">
-            Multi‑phase team app with static, database, and real‑time features.
-          </p>
-          <p class="placeholder-note">
-            This section will link to Phases 1–3 once all live deployments are ready.
-          </p>
+          <button class="project-toggle" type="button" data-accordion-toggle>
+            <div class="project-toggle-text">
+              <h3>Final Team Project — Battleship Radar Command</h3>
+              <p class="project-tagline">
+                Multiplayer Battleship API and UI built with Express.js and PostgreSQL.
+              </p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-panel" data-accordion-panel>
+            <p class="placeholder-note">
+              Final team project for CPSC 3750: a REST API backend with a radar‑themed
+              Battleship client. Deployed on Render with a shared PostgreSQL database.
+            </p>
+            <div class="project-links">
+              <a href="https://finalproject3750.onrender.com/" target="_blank" rel="noopener noreferrer">
+                Live app
+              </a>
+              <span>·</span>
+              <a href="https://github.com/sincoff/FINALPROJECT3750" target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+            </div>
+          </div>
         </article>
       </div>
     </section>
@@ -126,15 +151,17 @@
       <div class="about-grid">
         <div>
           <p>
-            I’m a web developer focused on shipping real, working products —
-            not just class assignments. I like projects where I own the full
-            stack: designing the API, wiring up the database, and polishing the UI
-            so it feels fast and obvious to use.
+            I’m a web developer who cares about real users and real deployments,
+            not just getting code to run once on my laptop. I like owning the full
+            stack: sketching the data model, designing the API, and polishing the UI
+            until it feels obvious to click through.
           </p>
           <p>
-            Recent work includes Workout Log Manager, a production‑deployed
+            Recently I built Workout Log Manager, a production‑deployed
             fitness tracker with a Flask API, PostgreSQL on Render, and a Netlify‑hosted
-            frontend at <strong>workoutmanager.live</strong>.
+            frontend at <strong>workoutmanager.live</strong>. It’s the kind of project
+            I enjoy talking through in an interview: what the user sees, how the data flows,
+            and why the architecture is set up the way it is.
           </p>
         </div>
         <div>
